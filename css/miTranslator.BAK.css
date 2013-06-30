@@ -1,0 +1,96 @@
+#message
+{
+      border:1px 1px #FFF;
+      box-shadow:0 1px 0 #FFF;
+}
+
+#translateText
+{
+      background:#FFF !important;
+      border:1px solid #444;
+      /*
+      border-radius:10px 10px 0 0;
+      font-size:15.5px;
+      height:110px;
+      */
+      text-shadow:0 -1px 0 #FFF;
+      resize: none;
+      min-height: 55px;
+}
+
+#translateText, #translatedText  * { color: #000; cursor: text; }
+
+#translatedText
+{
+      color:#000;
+      font-size:15.5px;
+      text-shadow:0 -1px 0 #FFF;
+      background: transparent !important;
+      border: none !important;
+}
+
+#submit_wrapper .ui-btn-corner-all
+{
+      border-radius:0 0 10px 10px;
+}
+
+#submit_wrapper .ui-btn-text .icon-globe
+{
+      text-shadow:1px -1px 0 #000;
+}
+
+#translate
+{
+      color:#FFF !important;
+      font-size:16px !important;
+      text-shadow:0 -1px 0 #000 !important;
+}
+
+#submit_wrapper .ui-btn-inner
+{
+      box-shadow:1px 0 12px #444 !important;
+      font-size:15px !important;
+      padding:4px 0 6px !important;
+}
+
+#content::selection
+{
+      background:#3081CC;
+      font-weight: 400s;
+      color:#FFF;
+      text-shadow:none;
+}
+
+#providers .ui-btn-inner
+{
+      border-left:none !important;
+      border-right:none !important;
+}
+
+#providers .ui-btn-text div
+{
+      color:#FFF;
+      display:block;
+      font-family:'Century Gothic', sans-serif !important;
+      font-size:11px !importnat;
+      font-weight:bold;
+      margin-top:-2px !important;
+      text-shadow:0 -1px 0 #000;
+}
+
+.ui-popup.ui-content
+{
+      font-weight:400;
+      margin:0 auto;
+      padding-left:40px;
+      padding-right:40px;
+      text-align:center;
+}
+
+.ui-footer
+{
+      border:none;
+      border-top:1px solid #666 !important;
+      box-shadow:0 -1px 6px #888 !important;
+      overflow:hidden !important;
+}

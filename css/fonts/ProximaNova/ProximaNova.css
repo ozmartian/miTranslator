@@ -1,0 +1,35 @@
+@font-face
+{
+      font-family:ProximaNovaA-Bold;
+      src:url(23BAC1_1_0.woff) format(woff);
+}
+
+@font-face
+{
+      font-family:ProximaNovaS-Bold;
+      src:url(23BAC1_0_0.woff) format(woff);
+}
+
+@font-face
+{
+      font-family:ProximaNova-Bold;
+      src:url(23BAC1_2_0.woff) format(woff);
+}
+
+@font-face
+{
+      font-family:ProximaNovaA-Thin;
+      src:url(24BA4F_0_0.woff) format(woff);
+}
+
+@font-face
+{
+      font-family:ProximaNovaS-Thin;
+      src:url(24BA4F_1_0.woff) format(woff);
+}
+
+@font-face
+{
+      font-family:ProximaNova-Thin;
+      src:url(24BA4F_2_0.woff) format(woff);
+}

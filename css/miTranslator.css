@@ -1,0 +1,226 @@
+@import  url(fonts/Ubuntu/Ubuntu.css);
+@import  url(fonts/SquadaOne/SquadaOne.css);
+
+html {
+    font-family: Ubuntu, sans-serif;
+    overflow: hidden;
+    webkit-font-smoothing: antialiased !important;
+    zoom: 1 !important;
+}
+
+#page {
+    background: #111;
+}
+
+#header {
+    border: none;
+    box-shadow: none;
+}
+
+#header #title {
+    background: url(../img/header-title.png) no-repeat;
+    background-size: 230px;
+    float: left;
+    height: 60px;
+    margin: 11px 0 0 5px;
+    width: 230px;
+    display: block;
+}
+
+#header #logo {
+    position: relative;
+    top: 10px;
+    right: 15px;
+    float: right;
+    margin-bottom: 10px;
+}
+
+#content {
+    border: 1px solid #FFF;
+    background: #DCD7CE;
+    border-radius: 4px;
+    margin: 20px 12px;
+    overflow: hidden;
+    padding: 8px 10px;
+    -webkit-box-sizing: border-box;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.35), 0 1px 0 #FFF;
+}
+
+#translateText {
+    color: #111;
+    font-family: Ubuntu, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    /* height: 86px; */
+    letter-spacing: -1px;
+    line-height: 18px;
+    margin: 0 auto;
+    position: relative;
+    resize: none;
+    text-shadow: 0 -1px 0 #FFF !important;
+    top: 8px;
+    width: 98%;
+    -webkit-box-sizing: border-box;
+    border: 1px solid #FFF;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.35), 0 1px 0 #FFF;
+}
+
+#translateText {
+    background: #EAEAEA;
+    color: #111 !important;
+    text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+    background: #DCD7CE;
+    border-radius: 4px;
+    height: 100px !important;
+    max-height: 100px !important;
+}
+
+#translateText:focus {
+    background: #E7E3DD;
+    outline: none;
+}
+
+#translatedText {
+    color: #111 !important;
+    font-family: 'Microsoft YaHei', sans-serif;
+    font-size: 20.5px;
+    font-weight: 500;
+    line-height: 19px;
+    position: relative;
+    letter-spacing: -1px;
+    text-shadow: 0 -1px 0 #FFF;
+    top: 5px;
+}
+
+#translatedText .iscroll-content h3{
+    padding-top: 10px;
+    font-size: 14px !important;
+    font-family: 'Squada One', sans-serif !important;
+    letter-spacing: -1px;
+}
+
+#clear.ui-btn-icon-notext {
+    background: transparent;
+    border: none !important;
+    bottom: 14px;
+    display: inline;
+    float: right !important;
+    height: 24px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    right: 13px;
+    width: 24px;
+    z-index: 9999;
+}
+
+#providers .provider div { height: 40px !important }
+
+#providers .ui-btn #provider_baidu {
+    background: url(../img/providers/logo_baidu.png) no-repeat center center;
+    background-size: 62px;
+}
+
+#providers .ui-btn.ui-btn-active #provider_baidu {
+    background-image: url(../img/providers/logo_baidu_on.png);
+}
+
+#providers .ui-btn #provider_bing {
+    background: transparent url(../img/providers/logo_bing.png) no-repeat center center;
+    background-size: 60px;
+}
+
+#providers .ui-btn.ui-btn-active #provider_bing {
+    background-image: url(../img/providers/logo_bing_on.png);
+}
+
+#providers .ui-btn #provider_transcloud {
+    background: transparent url(../img/providers/logo_transcloud.png) no-repeat center center;
+    background-size: 56px;
+}
+
+#providers .ui-btn.ui-btn-active #provider_transcloud {
+    background-image: url(../img/providers/logo_transcloud_on.png);
+}
+
+#providers .ui-btn #provider_youdao {
+    background: transparent url(../img/providers/logo_youdao.png) no-repeat center center;
+    background-size: 45px;
+}
+
+#providers .ui-btn.ui-btn-active #provider_youdao {
+    background-image: url(../img/providers/logo_youdao_on.png);
+}
+
+.ui-navbar li .ui-btn .ui-btn-inner {
+    padding: 2px;
+}
+
+#footer .ui-btn {
+    border: none;
+}
+
+#footer .ui-btn.ui-btn-active {
+    background: #111 !important;
+    background-image: linear- gradient(#FAFAFA, #F6F6F6);
+    border-left: 1px solid #111;
+    webkit-box-sizing: border-box;
+}
+
+#footer {
+    border: none;
+    margin: 0;
+}
+
+#footer #navbar {
+    box-shadow: 0 0 8px #444;
+}
+
+#footer a.provider {
+    cursor: pointer;
+}
+
+.loader-wrapper {
+    position: relative;
+    background: url(../img/header-faces.png) no-repeat -7px -9px;
+    background-size: 80px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 18px !important;
+}
+
+.loader {
+    display: none;
+    position: relative;
+    border: 6px solid rgba(0,183,229,0.9);
+    border-top: 6px solid rgba(0,0,0,0);
+    border-left: 6px solid rgba(0,0,0,0);
+    border-radius: 106px;
+    box-shadow: 1px 1px 15px #2187e7;
+    width: 53px;
+    height: 53px;
+    right: 0px;
+    margin: 0 auto;
+    -moz-animation: spinoff .5s infinite linear;
+    -webkit-animation: spinoff .5s infinite linear;
+}
+
+@-moz-keyframes spin {
+    0% { -moz-transform:rotate(0deg); }
+    100% { -moz-transform:rotate(360deg); }
+}
+
+@-moz-keyframes spinoff {
+    0% { -moz-transform:rotate(0deg); }
+    100% { -moz-transform:rotate(-360deg); }
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform:rotate(0deg); }
+    100% { -webkit-transform:rotate(360deg); }
+}
+
+@-webkit-keyframes spinoff {
+    0% { -webkit-transform:rotate(0deg); }
+    100% { -webkit-transform:rotate(-360deg); }
+}
