@@ -66,7 +66,7 @@ var miTrans = {
     from: '',
     to: '',
 
-    provider: 'baidu',
+    provider: 'systran',
 
     regex: new RegExp('[^\x00-\x80]+'),
 
@@ -81,19 +81,13 @@ var miTrans = {
 
     callback: function(response) {
         miTrans.data = response;
-$.dump(response);
         if (document.location.hash === "#debug") { console.log('response: ' + data); }
         if (miTrans.service[miTrans.provider].result.length > 0) {
             miTrans.response = eval('miTrans.data.' + miTrans.service[miTrans.provider].result);
         } else {
             miTrans.response = miTrans.data;
         }
-        $('#translatedText .iscroll-content').text(miTrans.response);
-
-        /* BEGIN: REVERSE TRANSLATION */
-        var reverseTrans = '<h3>Reverse Translation</h3>';
-        /*    END: REVERSE TRANSLATION */
-
+        $('#translatedText .iscroll-content').text(decodeURIComponent(miTrans.response));
         $('#translatedText').iscrollview('refresh');
         miTrans.loader(false);
         miTrans.setclip(miTrans.response);
@@ -113,12 +107,18 @@ $.dump(response);
     },
 
     translate: function(toTrans) {
+        miTrans.loader(true);
         if (toTrans && typeof(toTrans) == 'string' && toTrans.length > 0) { $('#translateText').val(unescape(toTrans)); }
         var text = $('#translateText').val();
         if (text.length > 0) {
             if (miTrans.service[miTrans.provider].query.length > 0) {
-                miTrans.from = miTrans.regex.test(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
-                miTrans.to = miTrans.regex.test(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
+                if (miTrans.regex.test(text)) {
+                    miTrans.from = miTrans.service[miTrans.provider].lang.chinese;
+                    miTrans.to = miTrans.service[miTrans.provider].lang.english;
+                } else {
+                    miTrans.from = miTrans.service[miTrans.provider].lang.english;
+                    miTrans.to = miTrans.service[miTrans.provider].lang.chinese;
+                }
                 var qsVal = (miTrans.service[miTrans.provider].query).replace(/{from}/gi, miTrans.from).replace(/{to}/gi, miTrans.to);
                 if (miTrans.service[miTrans.provider].type === "POST") {
                     var fullURI = miTrans.service[miTrans.provider].uri + qsVal;
