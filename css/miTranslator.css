@@ -134,6 +134,15 @@ html {
     background-image: url(../img/providers/logo_bing_on.png);
 }
 
+#providers .ui-btn #provider_systran {
+    background: transparent url(../img/providers/logo_systran.png) no-repeat center center;
+    background-size: 56px;
+}
+
+#providers .ui-btn.ui-btn-active #provider_systran {
+    background-image: url(../img/providers/logo_systran_on.png);
+}
+
 #providers .ui-btn #provider_transcloud {
     background: transparent url(../img/providers/logo_transcloud.png) no-repeat center center;
     background-size: 56px;

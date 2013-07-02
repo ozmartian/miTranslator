@@ -43,7 +43,7 @@ var miTrans = {
             datatype: 'text',
             type: 'GET',
             lang: { chinese: 'zh-CHS', english: 'en' },
-            enabled: true
+            enabled: false
         },
 
         youdao: {
@@ -81,6 +81,7 @@ var miTrans = {
 
     callback: function(response) {
         miTrans.data = response;
+$.dump(response);
         if (document.location.hash === "#debug") { console.log('response: ' + data); }
         if (miTrans.service[miTrans.provider].result.length > 0) {
             miTrans.response = eval('miTrans.data.' + miTrans.service[miTrans.provider].result);
@@ -98,44 +99,56 @@ var miTrans = {
         miTrans.setclip(miTrans.response);
     },
 
-    ajaxOptions:  function(uri, datatype){
-        var options = {
-            url: fullURI,
-            dataType: dataType,
+    ajaxOptions:  function(uri, datatype, type, data){
+        return {
+            url: uri,
+            type: (type != null ? type : "GET"),
+            data: (data != null ? data : ""),
+            dataType: datatype,
             cache: false,
             async: true,
+            processData: (type == "POST" ? false : true),
             jsonpCallback: 'miTrans.callback'
         };
-        return options;
     },
 
     translate: function(toTrans) {
         if (toTrans && typeof(toTrans) == 'string' && toTrans.length > 0) { $('#translateText').val(unescape(toTrans)); }
         var text = $('#translateText').val();
         if (text.length > 0) {
-            miTrans.loader(true);
             if (miTrans.service[miTrans.provider].query.length > 0) {
-                miTrans.from = miTrans.regex.text(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
-                miTrans.to = miTrans.regex.text(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
+                miTrans.from = miTrans.regex.test(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
+                miTrans.to = miTrans.regex.test(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
                 var qsVal = (miTrans.service[miTrans.provider].query).replace(/{from}/gi, miTrans.from).replace(/{to}/gi, miTrans.to);
-                var fullURI = miTrans.service[miTrans.provider].uri + encodeURIComponent(text) + qsVal;
+                if (miTrans.service[miTrans.provider].type === "POST") {
+                    var fullURI = miTrans.service[miTrans.provider].uri + qsVal;
+                } else {
+                    var fullURI = miTrans.service[miTrans.provider].uri + encodeURIComponent(text) + qsVal;
+                }
             } else {
                 var fullURI = miTrans.service[miTrans.provider].uri + encodeURIComponent(text);
             }
-            var dataType = miTrans.service[miTrans.provider].datatype;
-
-            /* BEGIN: main AJAX request */
-            miTrans.jqXHR = $.ajax(miTrans.ajaxOptions(fullURI, dataType))
+            var data = (miTrans.service[miTrans.provider].type == "POST") ? encodeURIComponent(text) : "";
+            var options = miTrans.ajaxOptions(fullURI, miTrans.service[miTrans.provider].datatype, miTrans.service[miTrans.provider].type, data);
+            miTrans.jqXHR = $.ajax(options)
                 .done(function(data) { miTrans.callback(data); })
                 .fail(function(jqXHR, statusText, error) {
                     miTrans.loader(false);
-                    console.error('translate() ERROR: ' + error + ' [' + jqXHR.statusCode + ']');
+                    console.log('translate() ERROR: ' + error + ' [' + jqXHR.statusCode + ']');
                     $.dump(jqXHR)
                 });
-            /* END:  main AJAX request */
-
         }
         return false;
+    },
+    
+    /* TODO: replace with Modernizr.load() */
+    loadscript: function(script) {
+        if ($("script[src$='" + script + "']").length == 0) {          
+            var tag = document.createElement("script");
+            tag.setAttribute('src', script);            
+            $("head")[0].appendChild(tag);
+        }
+        return true;
     },
 
     select: function(e, elem) {
@@ -182,10 +195,10 @@ var miTrans = {
     },
 
     events: function() {
-        /* var uriText = $.url(false).param('text');
+        var uriText = $.url(false).param('text');
         if (typeof(uriText) == 'string' && uriText.length > 0) {
             miTrans.translate(uriText);
-        } */
+        }
         $('#translateText')
             .on('blur', function(e) { $.mobile.silentScroll(0); })
             .on('change', function(e) { miTrans.translate(); })
@@ -215,18 +228,20 @@ var miTrans = {
                     miTrans.translate(miTrans.clipdata);
                 }
             }, function(){}, 'ClipboardPlugin', 'getText', []);
-        } catch(ex) {}
+        } catch(ex) {
+            console.log(ex);
+        }
         //}
     },
 
     setclip: function(data) {
         //if (miTrans.isphonegap) {
         try {
-            if ($.trim(data).length > 0) {
+            if (data && $.trim(data).length > 0) {
                 cordova.exec(function(){}, function(){}, 'ClipboardPlugin', 'setText', [data]);
             }
         } catch(ex) {
-            console.error(ex);
+            console.log(ex);
         }
         //}
     },
