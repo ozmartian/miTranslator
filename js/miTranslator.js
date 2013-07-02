@@ -2,6 +2,8 @@ var handleOpenURL = function(url) { setTimeout(function() { miTrans.translate(ur
 
 var miTrans = {
 
+    jqXHR: null,
+
     service: {
 
         baidu: {
@@ -21,6 +23,16 @@ var miTrans = {
             datatype: 'jsonp',
             type: 'GET',
             lang: { chinese: 'zh-CHS', english: 'en' },
+            enabled: true
+        },
+
+        systran: {
+            uri: 'http://svstxt.systransoft.com/?gui=vgadget&service=translate&loca=ZH',
+            query: '&lp={from}_{to}',
+            result: '',
+            datatype: 'text',
+            type: 'POST',
+            lang: { chinese: 'zh', english: 'en' },
             enabled: true
         },
 
@@ -86,50 +98,44 @@ var miTrans = {
         miTrans.setclip(miTrans.response);
     },
 
+    ajaxOptions:  function(uri, datatype){
+        var options = {
+            url: fullURI,
+            dataType: dataType,
+            cache: false,
+            async: true,
+            jsonpCallback: 'miTrans.callback'
+        };
+        return options;
+    },
+
     translate: function(toTrans) {
         if (toTrans && typeof(toTrans) == 'string' && toTrans.length > 0) { $('#translateText').val(unescape(toTrans)); }
         var text = $('#translateText').val();
         if (text.length > 0) {
             miTrans.loader(true);
             if (miTrans.service[miTrans.provider].query.length > 0) {
-                if (miTrans.regex.test(text)) {
-                    miTrans.from = miTrans.service[miTrans.provider].lang.chinese;
-                    miTrans.to = miTrans.service[miTrans.provider].lang.english;
-                } else {
-                    miTrans.from = miTrans.service[miTrans.provider].lang.english;
-                    miTrans.to = miTrans.service[miTrans.provider].lang.chinese;
-                }
+                miTrans.from = miTrans.regex.text(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
+                miTrans.to = miTrans.regex.text(text) ? miTrans.service[miTrans.provider].lang.chinese : miTrans.service[miTrans.provider].lang.english;
                 var qsVal = (miTrans.service[miTrans.provider].query).replace(/{from}/gi, miTrans.from).replace(/{to}/gi, miTrans.to);
                 var fullURI = miTrans.service[miTrans.provider].uri + encodeURIComponent(text) + qsVal;
             } else {
                 var fullURI = miTrans.service[miTrans.provider].uri + encodeURIComponent(text);
             }
             var dataType = miTrans.service[miTrans.provider].datatype;
-            $.ajax({
-                url: fullURI,
-                dataType: dataType,
-                cache: false,
-                async: true,
-                jsonpCallback: 'miTrans.callback',
-                success: function(data) {
-                    miTrans.callback(data);
-                },
-                failure: function(ex) {
+
+            /* BEGIN: main AJAX request */
+            miTrans.jqXHR = $.ajax(miTrans.ajaxOptions(fullURI, dataType))
+                .done(function(data) { miTrans.callback(data); })
+                .fail(function(jqXHR, statusText, error) {
                     miTrans.loader(false);
-                    console.error('translate() ERROR: ' + ex);
-                }
-            });
+                    console.error('translate() ERROR: ' + error + ' [' + jqXHR.statusCode + ']');
+                    $.dump(jqXHR)
+                });
+            /* END:  main AJAX request */
+
         }
         return false;
-    },
-
-    loadscript: function(script) {
-        if ($("script[src$='" + script + "']").length == 0) {          
-            var tag = document.createElement("script");
-            tag.setAttribute('src', script);            
-            $("head")[0].appendChild(tag);
-        }
-        return true;
     },
 
     select: function(e, elem) {
@@ -176,7 +182,7 @@ var miTrans = {
     },
 
     events: function() {
-        /* var uriText = $.url().param('text');
+        /* var uriText = $.url(false).param('text');
         if (typeof(uriText) == 'string' && uriText.length > 0) {
             miTrans.translate(uriText);
         } */
@@ -219,7 +225,9 @@ var miTrans = {
             if ($.trim(data).length > 0) {
                 cordova.exec(function(){}, function(){}, 'ClipboardPlugin', 'setText', [data]);
             }
-        } catch(ex) {}
+        } catch(ex) {
+            console.error(ex);
+        }
         //}
     },
 
