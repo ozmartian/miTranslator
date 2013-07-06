@@ -66,7 +66,7 @@ var miTrans = {
     from: '',
     to: '',
 
-    provider: 'systran',
+    provider: 'baidu',
 
     regex: new RegExp('[^\x00-\x80]+'),
 
@@ -135,7 +135,7 @@ var miTrans = {
                 .fail(function(jqXHR, statusText, error) {
                     miTrans.loader(false);
                     console.log('translate() ERROR: ' + error + ' [' + jqXHR.statusCode + ']');
-                    $.dump(jqXHR)
+                    if (miTrans.provider === "systran") { $.dump(jqXHR); }
                 });
         }
         return false;
@@ -171,7 +171,6 @@ var miTrans = {
             miTrans.provider = $(p).attr('rel');
             $('#provider_image_' + miTrans.provider).attr('src', 'img/providers/' + miTrans.provider + '.png');
         }
-        return false;
     },
 
     notify: function(msg, elem, autohide) {
@@ -213,8 +212,8 @@ var miTrans = {
             })
             .on('click', function(e) { miTrans.select(e, this); });
 
-        $('#footer a.provider').on('touchstart', function(e) {
-            miTrans.setprovider(e, this);
+        $('#navbar a.provider').on('touchstart click', function(e) {
+            miTrans.setprovider(e, $(this).attr('rel'));
             miTrans.translate();
         });
     },
@@ -249,10 +248,6 @@ var miTrans = {
     loader: function(on)  {
         if (on) { $('#header #logo #loader').fadeIn('fast'); }
         else { $('#header #logo #loader').fadeOut('slow'); }
-        /*
-        if (on) { $('.loader').fadeIn('fast'); }
-        else { $('.loader').fadeOut('slow'); }
-        */
     },
     
     defaults: function() {
@@ -268,7 +263,6 @@ var miTrans = {
         $('#translateText').width($('#content').width()+6);
         $('#content').height($('#content').height()-95);
         setTimeout(function(){ miTrans.getclip(); }, 0);
-        //$('#sitefooter').remove();
     }
 
 };
