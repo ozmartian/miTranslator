@@ -247,8 +247,12 @@ var miTrans = {
     },
 
     loader: function(on)  {
+        if (on) { $('#header #logo #loader').fadeIn('fast'); }
+        else { $('#header #logo #loader').fadeOut('slow'); }
+        /*
         if (on) { $('.loader').fadeIn('fast'); }
         else { $('.loader').fadeOut('slow'); }
+        */
     },
     
     defaults: function() {
