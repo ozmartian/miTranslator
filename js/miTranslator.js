@@ -27,7 +27,7 @@ var miTrans = {
         },
 
         systran: {
-            uri: 'http://svstxt.systransoft.com/?gui=vgadget&service=translate&loca=ZH',
+            uri: 'http://www.systranet.com/sai?gui=text&service=urlmarkuptranslate',
             query: '&lp={from}_{to}',
             result: '',
             datatype: 'text',
@@ -132,11 +132,7 @@ var miTrans = {
             var options = miTrans.ajaxOptions(fullURI, miTrans.service[miTrans.provider].datatype, miTrans.service[miTrans.provider].type, data);
             miTrans.jqXHR = $.ajax(options)
                 .done(function(data) { miTrans.callback(data); })
-                .fail(function(jqXHR, statusText, error) {
-                    miTrans.loader(false);
-                    console.log('translate() ERROR: ' + error + ' [' + jqXHR.statusCode + ']');
-                    if (miTrans.provider === "systran") { $.dump(jqXHR); }
-                });
+                .fail(function(jqXHR, statusText, error) { miTrans.loader(false); });
         }
         return false;
     },
@@ -166,9 +162,9 @@ var miTrans = {
     },
 
     setprovider: function(e, p) {
-        e.preventDefault();
+        //e.preventDefault();
         if (p) {
-            miTrans.provider = $(p).attr('rel');
+            miTrans.provider = p;
             $('#provider_image_' + miTrans.provider).attr('src', 'img/providers/' + miTrans.provider + '.png');
         }
     },
@@ -227,9 +223,7 @@ var miTrans = {
                     miTrans.translate(miTrans.clipdata);
                 }
             }, function(){}, 'ClipboardPlugin', 'getText', []);
-        } catch(ex) {
-            console.log(ex);
-        }
+        } catch(ex) {}
         //}
     },
 
